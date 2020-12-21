@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Odin Project</title>
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="https://www.theodinproject.com/courses/javascript/lessons/library">The Odin Project (JS) - Library</a></h1>
+        </header>
+        <div class="modal-background center">
+            <div class="modal-content">
+                <form class="form" action="">
+                    <div class="field">
+                        <input id='title' type="text" placeholder="Title" required>
+                    </div>
+                    <div class="field">
+                        <input id='author' type="text" placeholder="Author" required>
+                    </div>
+                    <div class="field">
+                        <input id='read' type="checkbox">
+                        <label>Already Read</label>
+                    </div>
+                    <button type='submit' class='modal-submit' id='addBook'>Add Book</button>
+                </form>
+                <button class="material-icons modal-close">close</button>
+            </div>
+        </div>
+        <button class="modal-open">Add to Library</button>
+        <div class="grid"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
