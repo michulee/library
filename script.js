@@ -1,105 +1,133 @@
+
 let myLibrary = []
-// @@ because we use id='addBook', we have to add our own validations
-// const addBook = document.getElementById('addBook');
-const addBook = document.querySelector('modal-submit');
+const addBook = document.getElementById('addBook');
 const modal = document.querySelector('.modal-background');
+const cardPos = document.body.querySelector('.grid');
 
 function Book() {
 }
 
-Book.prototype.isRead = () => {
-    
+Book.prototype.isRead = function(isRead) {
+    if(isRead) {
+        this.read = "Already Read";
+    } else {
+        this.read = "Want to Read";
+    }
 }
 displayAllBookCards();
 
 // Open modal form to add book to library
-const modalOpenBtn = document.querySelector('.modal-open');
+const modalOpenBtn = document.querySelector('.open');
 modalOpenBtn.addEventListener('click', () => {
     modal.style.visibility = 'unset';
 });
 // Close modal form to add book to library
-const modalCloseBtn = document.querySelector('.modal-close');
+const modalCloseBtn = document.querySelector('.close');
 modalCloseBtn.addEventListener('click', () => {
     modal.style.visibility = 'hidden';
 });
 
-// says is not a function
-function setVisibility(boolean) {
-    console.log('works')
-    // if(boolean) {
-    //     return this.style.visibility = 'hidden';
-    // } else {
-    //     return this.style.visibility = 'unset';
-    // }
-}
-
 // Click 'Submit' to create localStorage entry for book item
-// @@ because we use id='addBook', we have to add our own validations
 addBook.addEventListener('click', addBookToLibrary);
 function addBookToLibrary(e) {
-    e.preventDefault();
-    const book = new Book();
-    book.id = localStorage.length;
-    book.author = document.getElementById('author').value;
-    book.title = document.getElementById('title').value;
-    book.isRead = document.getElementById('read').value;
-    myLibrary.push(book);
-    // localStorage.setItem(localStorage.length, JSON.stringify(myLibrary))
-    localStorage.setItem(localStorage.length, JSON.stringify(book))
-    console.log(localStorage);
-    // modal.setVisibility(false);
-    setVisibility(false);
-    displayBookCard();
+    if(document.getElementById('title').value === '') {
+        // Do nothing
+    } else {
+        e.preventDefault();
+        const book = new Book();
+        book.id = localStorage.length;
+        book.author = document.getElementById('author').value;
+        book.title = document.getElementById('title').value;
+        book.isRead(document.getElementById('read').checked);
+        myLibrary.push(book);
+        localStorage.setItem(myLibrary.length-1, JSON.stringify(book))
+        console.log(localStorage);
+        displayBookCard();
+    }
 }
 
 // Display last book in myLibrary array
 function displayBookCard() {
-    const cardPos = document.body.querySelector('.grid');
-    // Retrieve the last book in myLibrary array
     const book = myLibrary[myLibrary.length-1];
-    // Display last book
-        const card = `
-                    <div class="card" data-id='${book.id}'>
-                        <h2>${book.title}</h2>
-                        <p>by ${book.author}</p>
-                        <p>${book.isRead}</p>
-                        <button class='remove'>Remove</button>
-                    </div>`;
-        cardPos.insertAdjacentHTML('afterbegin', card);
+    let readStatus;
+    if(book.read == 'Already Read') {
+        readStatus = 'icon-green-circle';
+    } else {
+        readStatus = 'icon-red-circle';
+    }
+    const card = `
+                <div class="card" data-id='${book.id}'>
+                    <h2>${book.title}</h2>
+                    <div>${book.author}</div>
+                    <div class='read'><i class='material-icons ${readStatus}'>fiber_manual_record</i>${book.read}</div>
+                    <button class='remove material-icons'>close</button>
+                </div>`;
+    cardPos.insertAdjacentHTML('afterbegin', card);
 }
 
 // Display all books upon loading page
-// @@ deleting items will leave index gaps
 function displayAllBookCards() {
-    if(localStorage.length)
-    for(let i = 0; i < localStorage.length; i++) {
-        const cardPos = document.body.querySelector('.grid');
-        // JSON.parse() can only parse one object at a time, not an array of objects
-        const book = JSON.parse(localStorage.getItem(i));
-        // console.log(book[i])
+    parseLocalStorage();
+    myLibrary.forEach(book => {
+        let readStatus;
+        if(book.read == 'Already Read') {
+            readStatus = 'icon-green-circle';
+        } else {
+            readStatus = 'icon-red-circle';
+        }
         const card = `
                     <div class="card" data-id='${book.id}'>
                         <h2>${book.title}</h2>
-                        <p>by ${book.author}</p>
-                        <p>${book.isRead}</p>
-                        <button class='remove'>Remove</button>
+                        <div>${book.author}</div>
+                        <div class='read'><i class='material-icons ${readStatus}'>fiber_manual_record</i>${book.read}</div>
+                        <button class='remove material-icons'>close</button>
                     </div>`;
         cardPos.insertAdjacentHTML('afterbegin', card);
+    });
+}
+
+function parseLocalStorage() {
+    for(book of Object.keys(localStorage)) {
+        myLibrary.push(JSON.parse(localStorage.getItem(book)));
     }
 }
 
-// removing single book that user clicked
+// Remove book upon clicking 'Remove'
 window.addEventListener('click', (e) => {
     if(e.target.classList.contains('remove')) {
         const card = e.target.parentElement;
-        //remove() removes HTML
+        // remove HTML
         card.remove(); 
         const id = card.getAttribute('data-id');
-        console.log(id);
+        // remove entry from myLibrary arr
+        myLibrary.forEach(book => {
+            if(book.id == id) {
+                myLibrary.splice(book, 1);
+            }
+        });
+        // remove localStorage entry
         localStorage.removeItem(id);
-        // find entry in localStorage and delete it 
-        // find index
     }
 })
+
+// Toggle read status of book
+window.addEventListener('click', (e) => {
+    if(e.target.classList.contains('read')) {
+        const card = e.target.parentElement;
+        const id = card.getAttribute('data-id');
+        myLibrary.forEach(book => {
+            if(book.id == id) {
+                console.log(book.read);
+                // change read status and set values for myLibrary and localStorage
+                if(book.read == 'Already Read') {
+                    book.isRead(false);
+                } else {
+                    // book.read = 'set';
+                    book.isRead(true);
+                }
+            }
+        });
+    }
+});
 
 
