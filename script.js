@@ -3,11 +3,12 @@ let myLibrary = []
 const addBook = document.getElementById('addBook');
 const modal = document.querySelector('.modal-background');
 const cardPos = document.body.querySelector('.grid');
+const localStorageKeys = Object.keys(localStorage);
 
 function Book() {
 }
 
-Book.prototype.isRead = function(isRead) {
+Book.prototype.setReadStatus = function(isRead) {
     if(isRead) {
         this.read = "Already Read";
     } else {
@@ -38,7 +39,7 @@ function addBookToLibrary(e) {
         // book.id = localStorage.length;
         book.author = document.getElementById('author').value;
         book.title = document.getElementById('title').value;
-        book.isRead(document.getElementById('read').checked);
+        book.setReadStatus(document.getElementById('read').checked);
         myLibrary.push(book);
         localStorage.setItem(myLibrary.length-1, JSON.stringify(book))
         console.log(localStorage);
@@ -86,57 +87,65 @@ function displayAllBookCards() {
     });
 }
 
+// Parse localStorage keys into an array
 function parseLocalStorage() {
-    for(book of Object.keys(localStorage)) {
-        myLibrary.push(JSON.parse(localStorage.getItem(book)));
+    let localStorageItem;
+    for(book of localStorageKeys) {
+        // localStorage values are strings, so must set parsed items to prototype
+        localStorageItem = JSON.parse(localStorage.getItem(book));
+        // localStorageItem.prototype = Book.prototype;
+        // localStorageItem = Book.prototype;
+        // localStorageItem.prototype = Object.create(Book.prototype);
+        console.log(localStorageItem);
+        myLibrary.push(localStorageItem);
     }
 }
 
-// Remove the card from display and localStorage
+// Window listeners
 window.addEventListener('click', (e) => {
-    if(e.target.classList.contains('remove')) {
-        /*Get countSibling which is the index of the clicked card within the grid display*/
-        const clickedElement = e.target.parentElement;
-        let sibling = clickedElement.nextElementSibling;
-        let countSibling = 0;
-        while(sibling !== null) {
-            countSibling++;
-            sibling = sibling.nextElementSibling;
-        }
-        // console.log('index in grid is ' + countSibling);
+    const cardPosition = getTargetElementPosition(e);
 
-        /*Remove book upon clicking 'Remove'*/
-        const card = e.target.parentElement;
+    // Remove the card from display and localStorage when clicking on remove button
+    if(e.target.classList.contains('remove')) {
+        const cardElement = e.target.parentElement;
+
         // remove HTML
-        card.remove(); 
+        cardElement.remove(); 
+
         // remove entry from myLibrary arr
-        myLibrary.splice(countSibling, 1)
+        myLibrary.splice(cardPosition, 1)
+
         // remove localStorage entry
-        const localStorageKeys = Object.keys(localStorage);
-        const removeStorageKey = localStorageKeys[countSibling];
+        const removeStorageKey = localStorageKeys[cardPosition];
         localStorage.removeItem(removeStorageKey);
     }
-})
-
-// Toggle read status of book
-window.addEventListener('click', (e) => {
-    if(e.target.classList.contains('read')) {
-        const card = e.target.parentElement;
-        const id = card.getAttribute('data-id');
-        myLibrary.forEach(book => {
-            if(book.id == id) {
-                console.log(book.read);
-                // change read status and set values for myLibrary and localStorage
-                if(book.read == 'Already Read') {
-                    book.isRead(false);
-                } else {
-                    // book.read = 'set';
-                    book.isRead(true);
-                }
-            }
-        });
+    // Toggle read status of book
+    else if(e.target.classList.contains('read')) {
+        // create boolean variable
+        let boolean = false;
+        // set myLibrary[cardPosition] prototype
+        if(myLibrary[cardPosition].read == 'Already Read') {
+            console.log()
+            // myLibrary[cardPosition].setReadStatus(!boolean);
+            console.log(myLibrary[cardPosition].read);
+            // don't work bc prototype isn't Book, it's Object
+            myLibrary[cardPosition].setReadStatus(false);
+        } else {
+            myLibrary[cardPosition].setReadStatus(true);
+        }
     }
 });
+
+function getTargetElementPosition(e) {
+    const clickedElement = e.target.parentElement;
+    let sibling = clickedElement.nextElementSibling;
+    let cardPosition = 0;
+    while(sibling !== null) {
+        cardPosition++;
+        sibling = sibling.nextElementSibling;
+    }
+    return cardPosition;
+}
 
 
 
