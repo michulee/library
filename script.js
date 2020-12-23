@@ -35,7 +35,7 @@ function addBookToLibrary(e) {
     } else {
         e.preventDefault();
         const book = new Book();
-        book.id = localStorage.length;
+        // book.id = localStorage.length;
         book.author = document.getElementById('author').value;
         book.title = document.getElementById('title').value;
         book.isRead(document.getElementById('read').checked);
@@ -92,21 +92,29 @@ function parseLocalStorage() {
     }
 }
 
-// Remove book upon clicking 'Remove'
+// Remove the card from display and localStorage
 window.addEventListener('click', (e) => {
     if(e.target.classList.contains('remove')) {
+        /*Get countSibling which is the index of the clicked card within the grid display*/
+        const clickedElement = e.target.parentElement;
+        let sibling = clickedElement.nextElementSibling;
+        let countSibling = 0;
+        while(sibling !== null) {
+            countSibling++;
+            sibling = sibling.nextElementSibling;
+        }
+        // console.log('index in grid is ' + countSibling);
+
+        /*Remove book upon clicking 'Remove'*/
         const card = e.target.parentElement;
         // remove HTML
         card.remove(); 
-        const id = card.getAttribute('data-id');
         // remove entry from myLibrary arr
-        myLibrary.forEach(book => {
-            if(book.id == id) {
-                myLibrary.splice(book, 1);
-            }
-        });
+        myLibrary.splice(countSibling, 1)
         // remove localStorage entry
-        localStorage.removeItem(id);
+        const localStorageKeys = Object.keys(localStorage);
+        const removeStorageKey = localStorageKeys[countSibling];
+        localStorage.removeItem(removeStorageKey);
     }
 })
 
@@ -129,5 +137,7 @@ window.addEventListener('click', (e) => {
         });
     }
 });
+
+
 
 
