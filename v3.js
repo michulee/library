@@ -3,12 +3,11 @@ let myLibrary = []
 const addBook = document.getElementById('addBook');
 const modal = document.querySelector('.modal-background');
 const cardPos = document.body.querySelector('.grid');
-console.log(localStorage)
-const localStorageKeys = Object.keys(localStorage);
-let localStorageItem = [];
 
-
-function Book() {
+function Book(title, author, read) {
+    this.title = title;
+    this.author = author;
+    this.read = read;
 }
 
 Book.prototype.setReadStatus = function(isRead) {
@@ -41,13 +40,12 @@ function addBookToLibrary(e) {
     } else {
         e.preventDefault();
         const book = new Book();
-        // book.id = localStorage.length;
-        book.author = document.getElementById('author').value;
         book.title = document.getElementById('title').value;
+        book.author = document.getElementById('author').value;
         book.setReadStatus(document.getElementById('read').checked);
         myLibrary.push(book);
-        localStorage.setItem(myLibrary.length-1, JSON.stringify(book))
-        console.log(localStorage);
+        // localStorage.setItem(myLibrary.length-1, JSON.stringify(book))
+        localStorage.setItem('book', JSON.stringify(myLibrary));
         displayBookCard();
     }
 }
@@ -92,20 +90,19 @@ function displayAllBookCards() {
     });
 }
 
-// Parse localStorage keys into an array
+// https://stackoverflow.com/questions/5873624/parse-json-string-into-a-particular-object-prototype-in-javascript
+// Parse localStorage into myLibrary
 function parseLocalStorage() {
-    // let localStorageItem;
-    for(book of localStorageKeys) {
-        // console.log(book)
-        // localStorage values are strings, so must set parsed items to prototype
-        localStorageItem = JSON.parse(localStorage.getItem(book));
-
-        const setPrototype = new Book;
-        Object.setPrototypeOf(localStorageItem, setPrototype);
-        console.log(localStorageItem);
+    const localStorageArray = JSON.parse(localStorage.getItem('book'));
+    localStorageArray.forEach(book => {
         
-        myLibrary.push(localStorageItem);
-    }
+        // don't use setPrototypeOf()
+        // Object.setPrototypeOf(book, new Book);
+        // myLibrary.push(book);
+
+        book = new Book(book.title, book.author, book.read);
+        myLibrary.push(book);
+    });
 }
 
 // Window listeners
@@ -123,24 +120,19 @@ window.addEventListener('click', (e) => {
         console.log('remove position is ' + cardPosition)
         myLibrary.splice(cardPosition, 1)
 
-        // remove localStorage entry
-        const removeStorageKey = localStorageKeys[cardPosition];
-        localStorage.removeItem(removeStorageKey);
+        // update localStorage entry
+        localStorage.setItem('book', JSON.stringify(myLibrary));
     }
     // Toggle read status of book
     else if(e.target.classList.contains('read')) {
+        console.log(e.target)
         if(myLibrary[cardPosition].read == 'Already Read') {
             console.log(myLibrary[cardPosition].read);
-            myLibrary[cardPosition].setReadStatus(false);
-            //localStorage
-            // position needs to be first in Object.keys, take obj from myLibrary
-            // localStorage.setItem(?, JSON.stringify(myLibrary[cardPosition]));
-            // change HTML to 'want to read'
+            // myLibrary[cardPosition].setReadStatus(false);
+            // change HTML to 'want to read', DOM manipulation
         } else {
-            myLibrary[cardPosition].setReadStatus(true);
-            //localStorage
-            // localStorage.setItem(?, JSON.stringify(myLibrary[cardPosition]));
-            // change HTML to 'already read'
+            // myLibrary[cardPosition].setReadStatus(true);
+            // change HTML to 'already read', DOM manipulation
         }
     }
 });
