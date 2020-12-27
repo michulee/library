@@ -73,42 +73,47 @@ function displayBookCard() {
 function displayAllBookCards() {
     parseLocalStorage();
     myLibrary.forEach(book => {
+        // should probably put this in prototype as well
         let readStatus;
         if(book.read == 'Already Read') {
             readStatus = 'icon-green-circle';
         } else {
             readStatus = 'icon-red-circle';
         }
+        // const card = `
+        //             <div class="card" data-id='${book.id}'>
+        //                 <h2>${book.title}</h2>
+        //                 <div>${book.author}</div>
+        //                 <div class='read'><i class='material-icons ${readStatus}'>fiber_manual_record</i>${book.read}</div>
+        //                 <button class='remove material-icons'>close</button>
+        //             </div>`;
         const card = `
                     <div class="card" data-id='${book.id}'>
                         <h2>${book.title}</h2>
                         <div>${book.author}</div>
-                        <div class='read'><i class='material-icons ${readStatus}'>fiber_manual_record</i>${book.read}</div>
+                        <div class='read'>
+                            <i class='material-icons ${readStatus}'>fiber_manual_record</i>
+                            <p class='readText'>${book.read}</p>
+                        </div>
                         <button class='remove material-icons'>close</button>
                     </div>`;
         cardPos.insertAdjacentHTML('afterbegin', card);
     });
 }
 
-// https://stackoverflow.com/questions/5873624/parse-json-string-into-a-particular-object-prototype-in-javascript
 // Parse localStorage into myLibrary
 function parseLocalStorage() {
     const localStorageArray = JSON.parse(localStorage.getItem('book'));
     localStorageArray.forEach(book => {
-        
-        // don't use setPrototypeOf()
-        // Object.setPrototypeOf(book, new Book);
-        // myLibrary.push(book);
-
         book = new Book(book.title, book.author, book.read);
         myLibrary.push(book);
     });
 }
 
 // Window listeners
+// how to target the div instead of the icon or text
 window.addEventListener('click', (e) => {
     const cardPosition = getTargetElementPosition(e);
-
     // Remove the card from display and localStorage when clicking on remove button
     if(e.target.classList.contains('remove')) {
         const cardElement = e.target.parentElement;
@@ -124,21 +129,34 @@ window.addEventListener('click', (e) => {
         localStorage.setItem('book', JSON.stringify(myLibrary));
     }
     // Toggle read status of book
-    else if(e.target.classList.contains('read')) {
-        console.log(e.target)
+    else if(e.target.parentElement.classList.contains('read')) {
+        // console.log('we in')
+        console.log(cardPosition)
+        console.log(e.target);
+        // console.log(myLibrary[cardPosition].read)
         if(myLibrary[cardPosition].read == 'Already Read') {
-            console.log(myLibrary[cardPosition].read);
-            // myLibrary[cardPosition].setReadStatus(false);
-            // change HTML to 'want to read', DOM manipulation
+            // want to set status and rewrite localstorage
+            myLibrary[cardPosition].setReadStatus(false);
+            
+            // need to change color of icon to red
+            if(e.target.classList.contains('readText')) {
+                e.target.innerText = 'Want to Read';
+            }
         } else {
-            // myLibrary[cardPosition].setReadStatus(true);
-            // change HTML to 'already read', DOM manipulation
+            // want to set status and rewrite localstorage
+            myLibrary[cardPosition].setReadStatus(true);
+
+            // need to change color of to green
+            if(e.target.classList.contains('readText')) {
+                e.target.innerText = 'Already Read';
+            }
         }
     }
 });
 
+// Get position of card of what you clicked on
 function getTargetElementPosition(e) {
-    const clickedElement = e.target.parentElement;
+    const clickedElement = e.target.closest('.card');
     let sibling = clickedElement.nextElementSibling;
     let cardPosition = 0;
     while(sibling !== null) {
