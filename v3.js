@@ -104,10 +104,13 @@ function displayAllBookCards() {
 // Parse localStorage into myLibrary
 function parseLocalStorage() {
     const localStorageArray = JSON.parse(localStorage.getItem('book'));
-    localStorageArray.forEach(book => {
-        book = new Book(book.title, book.author, book.read);
-        myLibrary.push(book);
-    });
+    // why does this work on new laptop and not new laptop?
+    if(localStorageArray !== null) {
+        localStorageArray.forEach(book => {
+            book = new Book(book.title, book.author, book.read);
+            myLibrary.push(book);
+        });
+    }
 }
 
 // Window listeners
@@ -135,16 +138,17 @@ window.addEventListener('click', (e) => {
         console.log(e.target);
         // console.log(myLibrary[cardPosition].read)
         if(myLibrary[cardPosition].read == 'Already Read') {
-            // want to set status and rewrite localstorage
             myLibrary[cardPosition].setReadStatus(false);
+            localStorage.setItem('book', JSON.stringify(myLibrary));
             
             // need to change color of icon to red
             if(e.target.classList.contains('readText')) {
                 e.target.innerText = 'Want to Read';
+                // get sibling, if it has x class, change readStatus class name to red
             }
         } else {
-            // want to set status and rewrite localstorage
             myLibrary[cardPosition].setReadStatus(true);
+            localStorage.setItem('book', JSON.stringify(myLibrary));
 
             // need to change color of to green
             if(e.target.classList.contains('readText')) {
