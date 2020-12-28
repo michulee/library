@@ -97,7 +97,6 @@ button.remove {
     align-items: center;
 }
 
-/* I WANT A CENTERED MODAL WITH DISPLAY:NONE */
 /* MODAL */
 .modal-background {
     /* display: none; */
@@ -108,6 +107,8 @@ button.remove {
     position: fixed;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
+    /* need z-index because dynamic elements are also at z 0 */
+    z-index: 1; 
 }
 
 .modal-content {
@@ -162,7 +163,7 @@ button.remove {
 
 .read:hover {
     cursor: pointer;
-    opacity: 0.5;
+    opacity: 0.4;
 }
 
 /* ICONS */
