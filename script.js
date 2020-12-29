@@ -14,8 +14,10 @@ function Book(title, author, read, icon) {
 Book.prototype.setReadStatus = function(isRead) {
     if(isRead) {
         this.read = 'Already Read';
+        this.icon = 'icon-green-circle';
     } else {
         this.read = 'Want to Read';
+        this.icon = 'icon-red-circle';
     }
 }
 displayAllBookCards();
@@ -64,7 +66,7 @@ function displayBookCard() {
 
 // Display all books upon loading page
 function displayAllBookCards() {
-    parseLocalStorage();
+    parseLocalStorage('book');
     myLibrary.forEach(book => {
         const card = `
                     <div class="card" data-id='${book.id}'>
@@ -82,8 +84,9 @@ function displayAllBookCards() {
 }
 
 // Parse localStorage objects into myLibrary array
-function parseLocalStorage() {
-    const localStorageArray = JSON.parse(localStorage.getItem('book'));
+
+function parseLocalStorage(key) {
+    const localStorageArray = JSON.parse(localStorage.getItem(key));
     if(localStorageArray !== null) {
         localStorageArray.forEach(book => {
             book = new Book(book.title, book.author, book.read, book.icon);
@@ -92,7 +95,10 @@ function parseLocalStorage() {
     }
 }
 
-// Window listeners
+/**
+ * Window event listeners for removing a card component, and changing the
+ * read status of a book
+ */
 window.addEventListener('click', (e) => {
     const cardPosition = getTargetElementPosition(e);
     const cardElement = e.target.parentElement;
@@ -126,7 +132,10 @@ window.addEventListener('click', (e) => {
     }
 });
 
-// Get position of card of what you clicked on
+/**
+ * Get position of the closest card component starting from the target element
+ * @param {*} e - The target element 
+ */
 function getTargetElementPosition(e) {
     const clickedElement = e.target.closest('.card');
     if(clickedElement !== null) {
@@ -139,7 +148,5 @@ function getTargetElementPosition(e) {
         return cardPosition;
     }
 }
-
-
 
 
