@@ -1,10 +1,10 @@
 
 let myLibrary = [];
-const btnAddBook = document.getElementById('addBook');
-const bookKey = 'book';
-const cardPos = document.body.querySelector('.grid');
-const btnOpenLibraryForm = document.querySelector('.open');
+const btnAddBook = document.querySelector('.btn-submit');
+const btnOpenLibraryForm = document.querySelector('.btn-open');
 const btnCloseLibraryForm = document.querySelector('.btn-close');
+const cardPos = document.body.querySelector('.grid');
+const bookKey = 'book';
 
 function Book(title, author, read, icon) {
     this.title = title;
@@ -13,6 +13,10 @@ function Book(title, author, read, icon) {
     this.icon = icon;
 }
 
+/**
+ * Set read status of book object
+ * @param {boolean} isRead - Read status of book
+ */
 Book.prototype.setReadStatus = function(isRead) {
     if(isRead) {
         this.read = 'Already Read';
@@ -24,31 +28,32 @@ Book.prototype.setReadStatus = function(isRead) {
 }
 displayAllBookCards();
 
-// btnOpenLibraryForm.addEventListener('click', setModalVisibility(true));
 btnOpenLibraryForm.addEventListener('click', function() {
     setModalVisibility(true);
 });
 
-// btnCloseLibraryForm.addEventListener('click', setModalVisibility(false));
 btnCloseLibraryForm.addEventListener('click', function() {
     setModalVisibility(false);
 });
+
 btnAddBook.addEventListener('click', addBookToLibrary);
 
-
-function setModalVisibility(isVisible) {
+/**
+ * Set visibility of modal library form
+ * @param {boolean} setVisibility - Visibility of modal box
+ */
+function setModalVisibility(setVisibility) {
     const modal = document.querySelector('.modal-background');
-    if(isVisible) {
+    if(setVisibility) {
         modal.style.visibility = 'unset';
     } else {
         modal.style.visibility = 'hidden';
     }
 }
 
-// make global variable for 'book'??
 /**
  * Add localStorage entry for book object
- * @param {*} e - The click event
+ * @param {*} e - A click event
  */
 function addBookToLibrary(e) {
     if(document.getElementById('title').value === '') {
@@ -130,7 +135,7 @@ window.addEventListener('click', (e) => {
     const cardPosition = getCardPosition(e);
     if(cardPosition !== -1) {
         const cardElement = e.target.parentElement;
-        // Remove the card from display and localStorage when clicking on remove button
+        // Listener to remove the card from display and localStorage when clicking on remove button
         if(e.target.classList.contains('remove')) {
             cardElement.remove(); //remove HTML
     
@@ -143,7 +148,7 @@ window.addEventListener('click', (e) => {
                 localStorage.setItem(bookKey, JSON.stringify(myLibrary)); 
             }
         }
-        // Toggle read status (text and icon) of book
+        // Listener to toggle read status (text and icon) of book
         else if(cardElement.classList.contains('read')) {
             const icon = cardElement.querySelector('.read-icon');
             const book = myLibrary[cardPosition];
@@ -176,7 +181,7 @@ window.addEventListener('click', (e) => {
  */
 function getCardPosition(e) {
     const clickedElement = e.target.closest('.card');
-    let cardPosition = -1;
+    let cardPosition = 0;
     if(clickedElement !== null) {
         let sibling = clickedElement.nextElementSibling;
         while(sibling !== null) {

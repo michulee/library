@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Odin Project</title>
+    <meta name="description" content="Add and remove books to library">
+    <title>Library</title>
     <!-- Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
@@ -21,22 +22,22 @@
         <div class="modal-background center">
             <div class="modal-content">
                 <form class="form" action="">
-                    <div class="field">
+                    <div class="form-field">
                         <input id='title' type="text" placeholder="Title" required>
                     </div>
-                    <div class="field">
+                    <div class="form-field">
                         <input id='author' type="text" placeholder="Author">
                     </div>
-                    <div class="field">
+                    <div class="form-field">
                         <input id='read' type="checkbox">
                         <label>Already Read</label>
                     </div>
-                    <button type='submit' class='btn-submit' id='addBook'>Add Book</button>
+                    <button type='submit' class='btn-submit'>Add Book</button>
                 </form>
                 <button class="material-icons btn-close">close</button>
             </div>
         </div>
-        <button class="open">Add to Library</button>
+        <button class="btn-open">Add to Library</button>
         <div class="grid"></div>
     </div>
     <script src="script.js"></script>
