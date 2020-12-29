@@ -7,7 +7,7 @@
 body {
     height: 100vh;
     width: 100vw;
-    background-color: #FADCD9;
+    background-color: #F6D4D2;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -38,27 +38,18 @@ input[type='checkbox'] {
 }
 
 
-/* block elements centered with 0 auto */
-/* inline elements centered with parent's display:block and text-align:center */
 button {
     display: block;
     border-radius: 20px;
     padding: 10px;
     margin: 1em;
     background-color:#F8AFA6;
-    /* border: none; */
     border-color: #F8ADA4;
-    color: white;
+    color: #FFFFFF;
     font-weight: 700;
     outline: none;
     cursor: pointer;
 }
-
-/* for dynamic elements (at least within eventlistner) must target */
-/* button.remove {
-    display: block;
-    margin: 0 auto;
-} */
 
 button.remove {
     position: absolute;
@@ -94,11 +85,9 @@ button.remove {
     visibility: hidden;
     width: 100%;
     height: 100%;
-    /* if it's not fixed, it wont be 100% of height */
     position: fixed;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
-    /* need z-index because dynamic elements are also at z 0 */
     z-index: 1; 
 }
 
@@ -109,13 +98,14 @@ button.remove {
     color: #757575;
 }
 
-.modal-submit {
+/* BUTTONS */
+.btn-submit {
     margin: 1em auto;
     background-color: #868B8E;
     border-color: #B9B7BD;
 }
 
-.close {
+.btn-close {
     position: absolute;
     top: 0;
     right: 0;
