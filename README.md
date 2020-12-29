@@ -1,4 +1,4 @@
-# Library - Add books to a library
+# :bulb: Library - Add books to a library
 Add and remove books from a library. This project is used to understand objects, prototypes, and localStorage.
 
 This is a JavaScript assignment from [The Odin Project](https://www.theodinproject.com/courses/javascript/lessons/library).
