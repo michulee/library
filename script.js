@@ -1,8 +1,10 @@
 
 let myLibrary = []
-const addBook = document.getElementById('addBook');
-const modal = document.querySelector('.modal-background');
+const btnAddBook = document.getElementById('addBook');
+
 const cardPos = document.body.querySelector('.grid');
+const btnOpenLibraryForm = document.querySelector('.open');
+const btnCloseLibraryForm = document.querySelector('.close');
 
 function Book(title, author, read, icon) {
     this.title = title;
@@ -22,20 +24,32 @@ Book.prototype.setReadStatus = function(isRead) {
 }
 displayAllBookCards();
 
-// Open modal form to add book
-const modalOpenBtn = document.querySelector('.open');
-modalOpenBtn.addEventListener('click', () => {
-    modal.style.visibility = 'unset';
+// btnOpenLibraryForm.addEventListener('click', setModalVisibility(true));
+btnOpenLibraryForm.addEventListener('click', function() {
+    setModalVisibility(true);
+});
 
+// btnCloseLibraryForm.addEventListener('click', setModalVisibility(false));
+btnCloseLibraryForm.addEventListener('click', function() {
+    setModalVisibility(false);
 });
-// Close modal form
-const modalCloseBtn = document.querySelector('.close');
-modalCloseBtn.addEventListener('click', () => {
-    modal.style.visibility = 'hidden';
-});
+btnAddBook.addEventListener('click', addBookToLibrary);
+
+
+function setModalVisibility(isVisible) {
+    const modal = document.querySelector('.modal-background');
+    if(isVisible) {
+        modal.style.visibility = 'unset';
+    } else {
+        modal.style.visibility = 'hidden';
+    }
+}
 
 // Click 'Submit' and create localStorage entry for book item
-addBook.addEventListener('click', addBookToLibrary);
+/**
+ * 
+ * @param {*} e - The target element
+ */
 function addBookToLibrary(e) {
     if(document.getElementById('title').value === '') {
         // Do nothing
@@ -51,7 +65,9 @@ function addBookToLibrary(e) {
     }
 }
 
-// Display book as you add them to the library
+/**
+ * Display book as you add them to the library
+ */
 function displayBookCard() {
     const book = myLibrary[myLibrary.length-1];
     const card = `
@@ -64,9 +80,12 @@ function displayBookCard() {
     cardPos.insertAdjacentHTML('afterbegin', card);
 }
 
-// Display all books upon loading page
+/**
+ * Display all books upon loading page
+ */
 function displayAllBookCards() {
-    parseLocalStorage('book');
+    // parseLocalStorage('book');
+    myLibrary = parseLocalStorage('book');
     myLibrary.forEach(book => {
         const card = `
                     <div class="card" data-id='${book.id}'>
@@ -81,17 +100,45 @@ function displayAllBookCards() {
         cardPos.insertAdjacentHTML('afterbegin', card);
         
     });
+    // myLibrary.forEach(book => {
+    //     const card = `
+    //                 <div class="card" data-id='${book.id}'>
+    //                     <h2>${book.title}</h2>
+    //                     <div>${book.author}</div>
+    //                     <div class='read'>
+    //                         <i class='read-icon material-icons ${book.icon}'>fiber_manual_record</i>
+    //                         <p class='readText'>${book.read}</p>
+    //                     </div>
+    //                     <button class='remove material-icons'>close</button>
+    //                 </div>`;
+    //     cardPos.insertAdjacentHTML('afterbegin', card);
+        
+    // });
 }
 
-// Parse localStorage objects into myLibrary array
+/**
+ * Parse localStorage objects into myLibrary array
+ * @param {*} key - The localStorage key
+ */
+// function parseLocalStorage(key) {
+//     const localStorageArray = JSON.parse(localStorage.getItem(key));
+//     if(localStorageArray !== null) {
+//         localStorageArray.forEach(book => {
+//             book = new Book(book.title, book.author, book.read, book.icon);
+//             myLibrary.push(book);
+//         });
+//     }
+// }
 
 function parseLocalStorage(key) {
     const localStorageArray = JSON.parse(localStorage.getItem(key));
     if(localStorageArray !== null) {
+        let libraryArray = [];
         localStorageArray.forEach(book => {
             book = new Book(book.title, book.author, book.read, book.icon);
-            myLibrary.push(book);
+            libraryArray.push(book);
         });
+        return libraryArray;
     }
 }
 
