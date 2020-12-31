@@ -4,9 +4,9 @@ Add and remove books from a library. This project is used to understand objects,
 This is a JavaScript assignment from [The Odin Project](https://www.theodinproject.com/courses/javascript/lessons/library).
 
 ## What is The Odin Project?
-[The Odin Project](https://www.theodinproject.com/about) is an open source curriculum that focuses on learning development through projects. It is a curated curriculum that features different articles and videos to deepen your learning. 
+[The Odin Project](https://www.theodinproject.com/about) is an open source curriculum that focuses on learning development through projects. It is a curated curriculum that features different articles and videos to deepend your understanding and prep you for the curriculum's assignments.
 
-## :rocket: Technologies Used
+## :rocket: Languages & Technologies Used
 This project was made using HTML, CSS, and vanilla JavaScript.
 
 ## :file_folder: Storage Method
