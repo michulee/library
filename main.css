@@ -154,3 +154,7 @@ button.remove {
 .icon-green-circle {
     color: #116530;
 }
+
+@media screen and (min-width: 600px) {
+    
+}
