@@ -201,7 +201,10 @@ button.remove {
 .card .title, .card .desc {
     width: 100%;
     overflow: hidden;
-    text-align: center;
+    /* text-align: center; */
+
+    /* only two lines of text can appear */
+    height: 2.3rem;
 }
 
 .card .title {
