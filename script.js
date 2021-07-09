@@ -61,13 +61,24 @@ function addBookToLibrary(e) {
     } else {
         e.preventDefault();
         const book = new Book();
+        const now = new Date();
+
+        // set metadata of item
         book.title = document.getElementById('title').value;
         book.author = document.getElementById('author').value;
         book.setReadStatus(document.getElementById('read').checked);
 
+        // set expired time for item
+        // (num * 1000) = TTL or time to live in sec converted to ms
+        // e.g. if num = 60 sec then 6000 ms
+        // 604800 sec = 7 days
+        book.expiry = now.getTime() + (604800 * 1000);
+
+        // set item to array and localStorage
         myLibrary.push(book);
         localStorage.setItem(bookKey, JSON.stringify(myLibrary));
 
+        // display iteme to screen
         displayBookCard();
     }
 }
@@ -116,10 +127,17 @@ function displayAllBookCards() {
  */
 function parseLocalStorageBook(key) {
     const localStorageArray = JSON.parse(localStorage.getItem(key));
+    const now = new Date();
     let libraryArray = [];
+    
     if(localStorageArray !== null) {
-        // Set object Book for all book objects from localStorage
-        localStorageArray.forEach(book => {
+        localStorageArray.forEach((book) => {
+            // compare expired time of item with current time
+            if(now.getTime() > book.expiry) {
+                localStorage.removeItem(key);
+            }
+
+            // Set objects to Book from localStorage to array
             book = new Book(book.title, book.author, book.read, book.icon);
             libraryArray.push(book);
         });
