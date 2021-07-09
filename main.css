@@ -1,5 +1,16 @@
+:root {
+    --color-light: #fff;
+    --color-dark: #000;
+    --color-test: pink;
+}
+
 * {
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+h1, p {
     padding: 0;
     margin: 0;
 }
@@ -7,20 +18,8 @@
 body {
     height: 100vh;
     width: 100vw;
-    background-color: #F6D4D2;
+    background-color: var(--color-light);
     font-family: 'Montserrat', sans-serif;
-}
-
-header {
-    width: 100%;
-    text-align: center;
-}
-
-h1 {
-    font-size: 3rem;
-    background: -webkit-linear-gradient(90deg, rgba(175,102,223,1) 0%, rgba(255,78,212,1) 50%, rgba(255,163,33,1) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 input, textarea {
@@ -36,7 +35,6 @@ input {
 input[type='checkbox'] {
     width: unset;
 }
-
 
 button {
     display: block;
@@ -60,14 +58,42 @@ button.remove {
     font-size: 16px;
 }
 
+/* CUSTOM GLOBAL */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100%;
-    width: 100%;
+    /* width: 100%; */
+    max-width: 1440px;
+    background-color: var(--color-test);
+    margin: 0 auto;
 }
 
+/* MENU */
+.menu {
+    border-bottom: 1px solid var(--color-dark);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.menu > * {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.menu .left {
+    margin-right: auto;
+}
+
+.menu .icon {
+    width: 25px;
+}
+
+/* GRID */
 .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
