@@ -3,7 +3,7 @@
     --color-dark: #000;
     --color-test: pink;
 
-    --color-primary: #F4B9B8;
+    --color-primary: #e4e4e4;
 }
 
 * {
@@ -69,14 +69,13 @@ button.remove {
 }
 
 /* MENU */
-.menu {
+.menu  {
     border-bottom: 1px solid var(--color-dark);
     width: 100%;
     display: flex;
     flex-direction: row;
     padding: 10px 30px;
-    margin-bottom: 50px;
-
+    /* margin-bottom: 50px; */
 }
 
 .menu > * {
@@ -93,11 +92,25 @@ button.remove {
     width: 25px;
 }
 
+/* SUB MENU */
+.sub_menu {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 10px 30px;
+    margin-bottom: 50px;
+}
+
+.sub_menu p {
+    text-transform: uppercase;
+}
+
 /* GRID */
 .grid {
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
 }
 
 .center {
@@ -155,7 +168,7 @@ button.remove {
     margin: 0 auto;
     background-color: var(--color-primary);
     border-radius: 20px;
-    padding: 3em 0;
+    padding: 3rem 1rem;
 
     display: flex;
     flex-direction: column;
@@ -164,12 +177,32 @@ button.remove {
     position: relative;
 }
 
-.read {
-    display: flex;
-    align-items: center;
+.card > * {
+    margin: 3px 0;
 }
 
-.read:hover {
+.card .title, .card .desc {
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+.card .title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.card .desc {
+
+}
+
+.card .read {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card .read:hover {
     cursor: pointer;
     opacity: 0.4;
 }
