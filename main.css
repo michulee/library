@@ -2,6 +2,8 @@
     --color-light: #fff;
     --color-dark: #000;
     --color-test: pink;
+
+    --color-primary: #F4B9B8;
 }
 
 * {
@@ -42,13 +44,16 @@ button {
     cursor: pointer;
 }
 
+button:hover {
+    opacity: 0.6;
+    transition: 0.3s;
+}
+
 button.remove {
     position: absolute;
-    right: 0;
-    top: 0;
-    background-color: transparent;
-    border: none;
-    font-size: 16px;
+    right: 5%;
+    top: 5%;
+    font-size: 1rem;
 }
 
 /* CUSTOM GLOBAL */
@@ -70,6 +75,7 @@ button.remove {
     display: flex;
     flex-direction: row;
     padding: 10px;
+    margin-bottom: 50px;
 }
 
 .menu > * {
@@ -89,8 +95,8 @@ button.remove {
 /* GRID */
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1em;
+    width: 100%;
+    grid-template-columns: repeat(5, 1fr);
 }
 
 .center {
@@ -145,9 +151,11 @@ button.remove {
 /* CARD */
 .card {
     width: 200px;
-    background-color: #F4B9B8;
+    margin: 0 auto;
+    background-color: var(--color-primary);
     border-radius: 20px;
     padding: 3em 0;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
