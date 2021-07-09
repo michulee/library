@@ -1,9 +1,10 @@
 :root {
     --color-light: #fff;
     --color-dark: #000;
-    --color-test: pink;
+    --color-gray: #e4e4e4;
+    --color-gray-dark: #3B3B3B;
 
-    --color-primary: #e4e4e4;
+    --color-primary: #18A0FB;
 }
 
 * {
@@ -110,6 +111,7 @@ button.remove {
     display: grid;
     width: 100%;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    justify-items: center;
     gap: 10px;
 }
 
@@ -131,17 +133,33 @@ button.remove {
 }
 
 .modal-content {
-    background-color: #F4B9B8;
+    background-color: var(--color-gray-dark);
     padding: 5em;
     position: relative;
-    color: #757575;
+    color: var(--color-light);
 }
 
 /* BUTTONS */
 .btn-submit {
     margin: 1em auto;
-    background-color: #868B8E;
-    border-color: #B9B7BD;
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 10px;
+    color: var(--color-primary);
+    font-weight: bold;
+    border: 1px solid;
+    border-color: var(--color-primary);
+    letter-spacing: 3px;
+    display: block;
+    margin: 20px auto;
+}
+.btn-submit p {
+    text-transform: uppercase;
+}
+.btn-submit:hover {
+    opacity: unset;
+    background-color: var(--color-primary);
+    color: var(--color-light);
 }
 
 .btn-close {
@@ -165,8 +183,7 @@ button.remove {
 /* CARD */
 .card {
     width: 200px;
-    margin: 0 auto;
-    background-color: var(--color-primary);
+    background-color: var(--color-gray);
     border-radius: 20px;
     padding: 3rem 1rem;
 
@@ -190,10 +207,6 @@ button.remove {
 .card .title {
     font-weight: bold;
     font-size: 1.5rem;
-}
-
-.card .desc {
-
 }
 
 .card .read {
