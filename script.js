@@ -74,6 +74,8 @@ function addBookToLibrary(e) {
         // 604800 sec = 7 days
         book.expiry = now.getTime() + (604800 * 1000);
 
+        clearInput();
+
         // set item to array and localStorage
         myLibrary.push(book);
         localStorage.setItem(bookKey, JSON.stringify(myLibrary));
@@ -81,6 +83,14 @@ function addBookToLibrary(e) {
         // display iteme to screen
         displayBookCard();
     }
+}
+
+/**
+ * Clear inputs of form
+ */
+function clearInput() {
+    const form = document.getElementById('form');
+    form.reset();
 }
 
 /**
