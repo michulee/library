@@ -90,9 +90,12 @@ function displayBookCard() {
     const book = myLibrary[myLibrary.length-1];
     const card = `
                 <div class="card" data-id='${book.id}'>
-                    <h2>${book.title}</h2>
-                    <div>${book.author}</div>
-                    <div class='read'><i class='read-icon material-icons ${book.icon}'>fiber_manual_record</i>${book.read}</div>
+                    <p class="title">${book.title}</p>
+                    <div class="desc">${book.author}</div>
+                    <div class='read'>
+                        <i class='read-icon material-icons ${book.icon}'>fiber_manual_record</i>
+                        <p class='readText'>${book.read}</p>
+                    </div>
                     <button class='remove material-icons'>close</button>
                 </div>`;
     cardPos.insertAdjacentHTML('afterbegin', card);
