@@ -37,15 +37,8 @@ input[type='checkbox'] {
 }
 
 button {
-    display: block;
-    border-radius: 20px;
-    padding: 10px;
-    margin: 1em;
-    background-color:#F8AFA6;
-    border-color: #F8ADA4;
-    color: #FFFFFF;
-    font-weight: 700;
-    outline: none;
+    border: unset;
+    background-color: unset;
     cursor: pointer;
 }
 
@@ -66,7 +59,7 @@ button.remove {
     height: 100%;
     /* width: 100%; */
     max-width: 1440px;
-    background-color: var(--color-test);
+    background-color: var(--color-light);
     margin: 0 auto;
 }
 
